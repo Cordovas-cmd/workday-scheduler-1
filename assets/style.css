@@ -1,7 +1,10 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
 }
 
 textarea{
@@ -18,7 +21,7 @@ textarea{
   background-color: transparent;
   color: black;
   border-radius: 0;
-  border-bottom: 10px solid black;
+  border-bottom: 1px solid rgb(202, 201, 201);
 }
 
 .description{
@@ -39,7 +42,7 @@ textarea{
 .hour {
   background-color: #ffffff;
   color: #000000;
-  border-top: 1px dashed #000000;
+  border-top: 1px dashed rgb(202, 201, 201);
 }
 
 .past {
