@@ -12,6 +12,24 @@ var setTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+// load the tasks from localStorage and create tasks in the right row
+var getTasks = function() {
+    tasks = JSON.parse(localStorage.getItem("tasks"));
+    $.each(tasks, function(key, value) {
+        var hourDiv = $("#" + key);
+        createTask(value, hourDiv);
+    })
+}
+
+var createTask = function(taskText, hourDiv) {
+    var taskDiv = hourDiv.find(".task");
+    // create the task element
+    var taskP = $("<p>")
+        .addClass("task-text")
+        .text(taskText)
+    taskDiv.html(taskP);
+}
+
 // task click handler
 $(".task").on("click", function() {
     // get the current text value
@@ -39,9 +57,8 @@ $(".save").on("click", function() {
     tasks[time] = text;
     // persist tasks
     setTasks();
-    // convert the textinput to p element
-    var taskP = $("<p>")
-        .addClass("task-text")
-        .text(text)
-    textArea.replaceWith(taskP);
+    // add a p element for the task
+    createTask(text, taskInfo);
 })
+
+getTasks();
