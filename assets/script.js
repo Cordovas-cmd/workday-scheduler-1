@@ -77,9 +77,10 @@ $(".saveBtn").on("click", function() {
     createTask(text, taskInfo);
 })
 
+// update the background of each row based on the time of day
 var auditTasks = function() {
-    // get the current hour and convert it to an int for comparison
-    var currentHour = parseInt(moment().format("H"));
+    // get the current hour
+    var currentHour = moment().hour();
     // update tasks based on their time
     $(".task-info").each( function() {
         // get the hour of this row and convert it to an int for comparison
@@ -97,6 +98,14 @@ var auditTasks = function() {
             $(this).removeClass(["past", "present"]).addClass("future");
         }
     })
-}
-
+};
 getTasks();
+
+// update the task backgrounds on the hour
+timeToHour = (3600000) - today.milliseconds();  // check how much time is left until the next hour
+// delay the audit until the top of that hour
+setTimeout(function() {
+    // then audit at every hour after that
+    setInterval(auditTasks, 3600000)
+}, timeToHour);
+// audit every hour after that
