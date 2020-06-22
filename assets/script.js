@@ -79,8 +79,7 @@ $(".saveBtn").on("click", function() {
 
 var auditTasks = function() {
     // get the current hour and convert it to an int for comparison
-    // var currentHour = parseInt(moment().format("H"));
-    var currentHour = parseInt("12");
+    var currentHour = parseInt(moment().format("H"));
     // update tasks based on their time
     $(".task-info").each( function() {
         // get the hour of this row and convert it to an int for comparison
