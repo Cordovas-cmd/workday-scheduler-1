@@ -1,4 +1,5 @@
 # Workday Scheduler
+deployed app: https://vanessalane.github.io/workday-scheduler/
 
 ## User Story
 AS AN employee with a busy schedule
