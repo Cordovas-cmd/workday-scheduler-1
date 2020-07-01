@@ -8,11 +8,11 @@ var tasks = {
     "10": [],
     "11": [],
     "12": [],
-    "1": [],
-    "2": [],
-    "3": [],
-    "4": [],
-    "5": []
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [],
+    "17": []
 };
 
 // add tasks to localStorage
@@ -24,11 +24,14 @@ var setTasks = function() {
 var getTasks = function() {
     // get the tasks from localStorage
     var loadedTasks = JSON.parse(localStorage.getItem("tasks"));
-    // for each key/value pair in tasks, create a task
-    $.each(loadedTasks, function(hour, task) {
-        var hourDiv = $("#" + hour);
-        createTask(task, hourDiv);
-    })
+    if (loadedTasks) {
+        tasks = loadedTasks
+        // for each key/value pair in tasks, create a task
+        $.each(tasks, function(hour, task) {
+            var hourDiv = $("#" + hour);
+            createTask(task, hourDiv);
+        })
+    }
     // make sure the past/current/future time is reflected
     auditTasks()
 }
@@ -44,21 +47,44 @@ var createTask = function(taskText, hourDiv) {
 }
 
 // task click handler
-$(".task").on("click", function() {
-    // get the current text value
-    var text = $(this).text();
-    // create a textInput element
-    var textInput = $("<textarea>")
-        .addClass("form-control")
-        .val(text);
-    // add the textInput element to the parent div
-    $(this).html(textInput);
-    // put it into focus
-    textInput.trigger("focus");
+$(".task").click(function() {
+    // save the other tasks if they've already been clicked
+    $("textarea").each(function() {
+        // get the necessary elements
+        var taskInfo = $(this).closest(".task-info");
+        var textArea = taskInfo.find("textarea");
+        // get the time
+        var time = taskInfo.attr("id");
+        // get the task text
+        var text = textArea.val().trim();
+        // persist the data if there is any
+        if (text){
+            // add the task to tasks object
+            tasks[time] = [text];  // setting to a one item list since there's only one task for now
+            // persist tasks
+            setTasks();
+        };
+        // replace the textarea element with a p element
+        createTask(text, taskInfo);
+    })
+    // convert to a textarea element if the time hasn't passed
+    var time = $(this).closest(".task-info").attr("id");
+    if (parseInt(time) >= moment().hour()) {
+        // get the current text value
+        var text = $(this).text();
+        // create a textInput element
+        var textInput = $("<textarea>")
+            .addClass("form-control")
+            .val(text);
+        // add the textInput element to the parent div
+        $(this).html(textInput);
+        // put it into focus
+        textInput.trigger("focus");
+    }
 })
 
 // save button click handler
-$(".saveBtn").on("click", function() {
+$(".saveBtn").click(function() {
     // get the necessary elements
     var taskInfo = $(this).closest(".task-info");
     var textArea = taskInfo.find("textarea");
